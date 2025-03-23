@@ -1,0 +1,17 @@
+:root {
+  --text-primary: #181818;
+  --text-secondary: #282828;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f2f2f2;
+  --primary: hsl(160, 100%, 37%);
+  --secondary: hsla(160, 100%, 37%, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #ffffff;
+    --text-secondary: #f2f2f2;
+    --bg-primary: #181818;
+    --bg-secondary: #282828;
+  }
+}
