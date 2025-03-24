@@ -1,11 +1,12 @@
 <script setup lang="ts">
 defineProps<{
   step: number
+  showLoader: boolean
 }>()
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="{ 'wrapper--disabled': showLoader }">
     <button
       class="wrapper__button wrapper__button-back"
       type="button"
@@ -58,6 +59,12 @@ defineProps<{
         background-color: var(--bg-primary-25);
       }
     }
+  }
+}
+.wrapper--disabled {
+  pointer-events: none;
+  button {
+    filter: brightness(0.5);
   }
 }
 @media only screen and (min-width: 480px) {

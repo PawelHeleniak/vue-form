@@ -5,10 +5,13 @@ import ContactFormStep from './forms/ContactFormStep.vue'
 import WorkExperienceFormStep from './forms/ExperienceFormStep.vue'
 import FormStepper from './navigation/FormStepper.vue'
 import FormNavigationButtons from './navigation/FormNavigationButtons.vue'
+import { submitForm } from '@/services/FormStepService'
+import type { FormData } from '@/models/FormStepModel'
 
-const step = ref(1)
+const step = ref<number>(1)
+const showLoader = ref<boolean>(false)
 
-const formData = ref({
+const formData = ref<FormData>({
   name: '',
   surname: '',
   birthDate: '',
@@ -24,7 +27,7 @@ const formData = ref({
   ],
 })
 
-const formErrors = ref({
+const formErrors = ref<FormData>({
   name: '',
   surname: '',
   birthDate: '',
@@ -159,21 +162,29 @@ const nextStep = () => {
 const backStep = () => {
   step.value--
 }
-const submit = () => {
+
+const submit = async () => {
   if (!validateStep()) return
-  console.log('Wysłane', formData)
+
+  // Można dodać blokowanie całego formularza + dodać loader
+  showLoader.value = true
+  try {
+    const message = await submitForm(formData.value)
+    alert(message)
+  } catch (error) {
+    alert(error)
+  } finally {
+    showLoader.value = false
+  }
 }
 
 const updateFormError = () => {
   validateStep()
 }
-// const updateFormData = (updatedData: typeof formData.value) => {
-//   formData.value = updatedData
-// }
 </script>
 
 <template>
-  <div class="form">
+  <div class="form" :class="{ 'form--disabled': showLoader }">
     <div class="form__stepper">
       <FormStepper :step="step" @step="handleStep"></FormStepper>
     </div>
@@ -205,6 +216,7 @@ const updateFormError = () => {
         @back="backStep"
         @submit="submit"
         :step="step"
+        :showLoader="showLoader"
       ></FormNavigationButtons>
     </div>
   </div>
@@ -222,6 +234,9 @@ const updateFormError = () => {
   width: max-content;
   height: auto;
   margin: 0 auto;
+  &--disabled {
+    pointer-events: none;
+  }
   &__buttons {
     margin-top: auto;
   }
