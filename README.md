@@ -1,38 +1,49 @@
-# vue-form
+# Wieloetapowy formularz w Vue 3
 
-This template should help get you started developing with Vue 3 in Vite.
+Projekt formularza wieloetapowego zbudowanego w Vue 3 z użyciem TypeScript i Composition API. Formularz składa się z trzech kroków:
 
-## Recommended IDE Setup
+1. **Dane podstawowe** – Imię, Nazwisko, Data urodzenia
+2. **Dane kontaktowe** – Telefon, E-mail
+3. **Doświadczenie zawodowe** – Tabelka z możliwością dodawania wielu pozycji (firma, stanowisko, zakres dat)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Funkcjonalności
 
-## Type Support for `.vue` Imports in TS
+- Nawigacja między krokami za pomocą steppera
+- Walidacja formularza dla każdego kroku
+- Dynamiczna tabela dodawania doświadczenia zawodowego
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Struktura projektu
 
-## Customize configuration
+- src/assets # Globalne pliki styli
+- src/components # Komponenty formularza
+- src/models # Modele dla formularza
+- src/services # Symulacja serwisu
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Technologie
 
-## Project Setup
+- **Vue 3** + Composition API
+- **TypeScript**
+- **SCSS**
+
+### Konfiguracja projektu
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### Uruchomienie w trybie deweploperskim
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Kompilowanie na produkcję
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### Poprawa kodu ESLint
 
 ```sh
 npm run lint
