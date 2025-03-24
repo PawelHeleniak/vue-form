@@ -1,18 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import BasicFormStep from './forms/BasicFormStep.vue'
+import ContactFormStep from './forms/ContactFormStep.vue'
+import WorkExperienceFormStep from './forms/ExperienceFormStep.vue'
+import FormStepper from './navigation/FormStepper.vue'
+import FormNavigationButtons from './navigation/FormNavigationButtons.vue'
 
 const step = ref(1)
 
-const formData = {
+const formData = ref({
   name: '',
   surname: '',
   birthDate: '',
   phone: '',
   email: '',
-  company: '',
-  dateFrom: '',
-  dateTo: '',
-}
+  experiences: [
+    {
+      company: '',
+      position: '',
+      dateFrom: '',
+      dateTo: '',
+    },
+  ],
+})
 
 const formErrors = ref({
   name: '',
@@ -20,29 +30,48 @@ const formErrors = ref({
   birthDate: '',
   phone: '',
   email: '',
-  company: '',
-  dateFrom: '',
-  dateTo: '',
+  experiences: [
+    {
+      company: '',
+      position: '',
+      dateFrom: '',
+      dateTo: '',
+    },
+  ],
 })
-
+const resetErrors = () => {
+  formErrors.value = {
+    name: '',
+    surname: '',
+    birthDate: '',
+    phone: '',
+    email: '',
+    experiences: [
+      {
+        company: '',
+        position: '',
+        dateFrom: '',
+        dateTo: '',
+      },
+    ],
+  }
+}
 const validateStep = () => {
-  Object.keys(formErrors.value).forEach(
-    (key) => (formErrors.value[key as keyof typeof formErrors.value] = ''),
-  )
+  resetErrors()
   switch (step.value) {
     case 1:
-      if (!formData.name) {
+      if (!formData.value.name) {
         formErrors.value.name = 'Pole jest wymagane.'
         return false
       }
-      if (!formData.surname) {
+      if (!formData.value.surname) {
         formErrors.value.surname = 'Pole jest wymagane.'
         return false
       }
-      if (!formData.birthDate) {
+      if (!formData.value.birthDate) {
         formErrors.value.birthDate = 'Pole jest wymagane.'
         return false
-      } else if (new Date(formData.birthDate) > new Date()) {
+      } else if (new Date(formData.value.birthDate) > new Date()) {
         formErrors.value.birthDate = 'Data urodzenia nie może być późniejsza od dzisiejszej.'
         return false
       }
@@ -52,46 +81,74 @@ const validateStep = () => {
       const phoneRegex = /^\d{9,12}$/
       const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
-      if (!formData.phone) {
+      if (!formData.value.phone) {
         formErrors.value.phone = 'Pole jest wymagane!'
         return false
-      } else if (!phoneRegex.test(formData.phone)) {
+      } else if (!phoneRegex.test(formData.value.phone)) {
         formErrors.value.phone = 'Numer telefonu musi być w przedziale 9-12 cyfr.'
         return false
       }
-      if (!formData.email) {
+      if (!formData.value.email) {
         formErrors.value.email = 'Pole jest wymagane!'
         return false
-      } else if (!emailRegex.test(formData.email)) {
+      } else if (!emailRegex.test(formData.value.email)) {
         formErrors.value.email = 'Niepoprawny format adresu email.'
         return false
       }
       break
 
     case 3:
-      if (!formData.company) {
-        formErrors.value.company = 'Pole jest wymagane.'
-        return false
-      }
-      if (!formData.dateFrom) {
-        formErrors.value.dateFrom = 'Pole jest wymagane.'
-        return false
-      } else if (formData.dateFrom > formData.dateTo) {
-        formErrors.value.dateFrom = 'Data od nie może być późniejsza od daty do.'
-        return false
-      }
-      if (!formData.dateTo) {
-        formErrors.value.dateTo = 'Pole jest wymagane.'
-        return false
-      } else if (formData.dateFrom < formData.dateTo) {
-        formErrors.value.dateTo = 'Data do nie może być wcześniejsza od daty od.'
-        return false
+      console.log(formData.value.experiences)
+      console.log(formErrors.value.experiences)
+
+      for (let index = 0; index < formData.value.experiences.length; index++) {
+        console.log(formErrors.value.experiences)
+        console.log(index)
+
+        if (!formData.value.experiences[index].company) {
+          formErrors.value.experiences[index].company = 'Pole jest wymagane.'
+          return false
+        }
       }
 
+      return true
     default:
       break
   }
   return true
+}
+//   if (!formData.value.position) {
+//     formErrors.value.position = 'Pole jest wymagane.'
+//     return false
+//   }
+//   if (!formData.value.dateFrom) {
+//     formErrors.value.dateFrom = 'Pole jest wymagane.'
+//     return false
+//   }
+//   if (!formData.value.dateTo) {
+//     formErrors.value.dateTo = 'Pole jest wymagane.'
+//     return false
+//   }
+//   const fromDate = new Date(formData.value.dateFrom)
+//   const toDate = new Date(formData.value.dateTo)
+//   if (fromDate > toDate) {
+//     formErrors.value.dateFrom = 'Data od nie może być późniejsza od daty do.'
+//     formErrors.value.dateTo = 'Data do nie może być wcześniejsza od daty od.'
+//     return false
+//   }
+
+const handleStep = (newStep: number) => {
+  const currentStep = step.value
+
+  if (currentStep < newStep) {
+    for (let i = currentStep; i < newStep; i++) {
+      nextStep()
+    }
+  } else if (currentStep > newStep) {
+    for (let i = newStep; i < currentStep; i++) {
+      backStep()
+    }
+  }
 }
 
 const nextStep = () => {
@@ -104,88 +161,45 @@ const backStep = () => {
 }
 const submit = () => {
   if (!validateStep()) return
-
   console.log('Wysłane', formData)
 }
+
+const updateFormError = () => {
+  validateStep()
+}
+// const updateFormData = (updatedData: typeof formData.value) => {
+//   formData.value = updatedData
+// }
 </script>
 
 <template>
+  <FormStepper :step="step" @step="handleStep"></FormStepper>
   <form>
-    <div class="step" v-show="step === 1">
-      <div class="input required">
-        <label for="name">Imie <span>*</span></label>
-        <input type="text" name="name" v-model="formData.name" />
-        <small class="error" v-if="formErrors.name">{{ formErrors.name }}</small>
-      </div>
-      <div class="input required">
-        <label for="surname">Nazwisko <span>*</span></label>
-        <input type="text" name="surname" v-model="formData.surname" />
-        <small class="error" v-if="formErrors.surname">{{ formErrors.surname }}</small>
-      </div>
-      <div class="input required">
-        <label for="birthDate">Data urodzenia <span>*</span></label>
-        <input type="date" name="birthDate" v-model="formData.birthDate" />
-        <small class="error" v-if="formErrors.birthDate">{{ formErrors.birthDate }}</small>
-      </div>
-    </div>
-    <div class="step" v-show="step === 2">
-      <div class="input required">
-        <label for="phone">Telefon <span>*</span></label>
-        <input type="text" name="phone" v-model="formData.phone" />
-        <small class="error" v-if="formErrors.phone">{{ formErrors.phone }}</small>
-      </div>
-      <div class="input required">
-        <label for="email">E-mail <span>*</span></label>
-        <input type="text" name="email" v-model="formData.email" />
-        <small class="error" v-if="formErrors.email">{{ formErrors.email }}</small>
-      </div>
-    </div>
-    <div class="step" v-show="step === 3">
-      <div class="input required">
-        <label for="company">Firma <span>*</span></label>
-        <input type="text" name="company" v-model="formData.company" />
-        <small class="error" v-if="formErrors.company">{{ formErrors.company }}</small>
-      </div>
-      <div class="input required">
-        <label for="dateFrom">Data od <span>*</span></label>
-        <input type="date" name="dateFrom" v-model="formData.dateFrom" />
-        <small class="error" v-if="formErrors.dateFrom">{{ formErrors.dateFrom }}</small>
-      </div>
-      <div class="input required">
-        <label for="dateTo">Data do <span>*</span></label>
-        <input type="date" name="dateTo" v-model="formData.dateTo" />
-        <small class="error" v-if="formErrors.dateTo">{{ formErrors.dateTo }}</small>
-      </div>
-    </div>
-    <div class="btn-wrapper">
-      <button type="button" v-if="step !== 1" @click="backStep">Wstecz</button>
-      <button type="button" v-if="step !== 3" @click="nextStep">Dalej</button>
-      <button type="button" v-if="step === 3" @click="submit">Wyślij</button>
-    </div>
+    <BasicFormStep
+      v-if="step === 1"
+      v-model:formData="formData"
+      :formErrors="formErrors"
+      @update:formData="updateFormError"
+    />
+    <ContactFormStep
+      v-if="step === 2"
+      v-model:formData="formData"
+      :formErrors="formErrors"
+      @update:formData="updateFormError"
+    />
+    <WorkExperienceFormStep
+      v-if="step === 3"
+      v-model:formData="formData"
+      :formErrors="formErrors"
+      @update:formData="updateFormError"
+    />
   </form>
+  <FormNavigationButtons
+    @next="nextStep"
+    @back="backStep"
+    @submit="submit"
+    :step="step"
+  ></FormNavigationButtons>
 </template>
 
-<style scoped>
-.step {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.input {
-  display: flex;
-  flex-direction: column;
-}
-.input.required span {
-  color: rgb(219, 56, 56);
-}
-.input input {
-  background-color: var(--bg-secondary);
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  color: var(--text-primary);
-}
-small.error {
-  color: rgb(219, 56, 56);
-}
-</style>
+<style scoped></style>
