@@ -46,118 +46,171 @@ const removeExperience = (index: number) => {
 
 <template>
   <div class="step">
-    <div class="step-item" v-for="(experience, index) in props.formData.experiences" :key="index">
-      <div class="input required">
-        <label :for="'company' + index">Firma <span>*</span></label>
-        <input
-          type="text"
-          name="company"
-          :id="'company' + index"
-          :value="experience.company"
-          @input="
-            emit('update:formData', {
-              ...props.formData,
-              experiences: props.formData.experiences.map((exp, i) =>
-                i === index ? { ...exp, company: ($event.target as HTMLInputElement).value } : exp,
-              ),
-            })
-          "
-          required
-        />
-        <small class="error" v-if="props.formErrors.experiences[index]?.company">{{
-          props.formErrors.experiences[index]?.company
-        }}</small>
+    <div class="step__item" v-for="(experience, index) in props.formData.experiences" :key="index">
+      <div class="step__field">
+        <div class="input required">
+          <label :for="'company' + index">Firma <span>*</span></label>
+          <input
+            type="text"
+            name="company"
+            :id="'company' + index"
+            :value="experience.company"
+            placeholder="Wpisz nazwę firmy"
+            @input="
+              emit('update:formData', {
+                ...props.formData,
+                experiences: props.formData.experiences.map((exp, i) =>
+                  i === index
+                    ? { ...exp, company: ($event.target as HTMLInputElement).value }
+                    : exp,
+                ),
+              })
+            "
+            required
+          />
+          <small class="error" v-if="props.formErrors.experiences[index]?.company">{{
+            props.formErrors.experiences[index]?.company
+          }}</small>
+        </div>
+        <div class="input required">
+          <label for="position">Stanowisko <span>*</span></label>
+          <input
+            type="text"
+            name="position"
+            id="position"
+            placeholder="Wpisz stanowisko"
+            :value="experience.position"
+            @input="
+              emit('update:formData', {
+                ...props.formData,
+                experiences: props.formData.experiences.map((exp, i) =>
+                  i === index
+                    ? { ...exp, position: ($event.target as HTMLInputElement).value }
+                    : exp,
+                ),
+              })
+            "
+            required
+          />
+          <small class="error" v-if="props.formErrors.experiences[index]?.position">{{
+            props.formErrors.experiences[index]?.position
+          }}</small>
+        </div>
+        <div class="input required">
+          <label for="dateFrom">Data od <span>*</span></label>
+          <input
+            type="date"
+            name="dateFrom"
+            id="dateFrom"
+            placeholder="Wpisz date od"
+            :value="experience.dateFrom"
+            @input="
+              emit('update:formData', {
+                ...props.formData,
+                experiences: props.formData.experiences.map((exp, i) =>
+                  i === index
+                    ? { ...exp, dateFrom: ($event.target as HTMLInputElement).value }
+                    : exp,
+                ),
+              })
+            "
+            required
+          />
+          <small class="error" v-if="props.formErrors.experiences[index]?.dateFrom">{{
+            props.formErrors.experiences[index]?.dateFrom
+          }}</small>
+        </div>
+        <div class="input required">
+          <label for="dateTo">Data do <span>*</span></label>
+          <input
+            type="date"
+            name="dateTo"
+            id="dateTo"
+            placeholder="Wpisz date do"
+            :value="experience.dateTo"
+            @input="
+              emit('update:formData', {
+                ...props.formData,
+                experiences: props.formData.experiences.map((exp, i) =>
+                  i === index ? { ...exp, dateTo: ($event.target as HTMLInputElement).value } : exp,
+                ),
+              })
+            "
+            required
+          />
+          <small class="error" v-if="props.formErrors.experiences[index]?.dateTo">{{
+            props.formErrors.experiences[index]?.dateTo
+          }}</small>
+        </div>
       </div>
-      <div class="input required">
-        <label for="position">Stanowisko <span>*</span></label>
-        <input
-          type="text"
-          name="position"
-          id="position"
-          :value="experience.position"
-          @input="
-            emit('update:formData', {
-              ...props.formData,
-              experiences: props.formData.experiences.map((exp, i) =>
-                i === index ? { ...exp, position: ($event.target as HTMLInputElement).value } : exp,
-              ),
-            })
-          "
-          required
-        />
-        <small class="error" v-if="props.formErrors.experiences[index]?.position">{{
-          props.formErrors.experiences[index]?.position
-        }}</small>
-      </div>
-      <div class="input required">
-        <label for="dateFrom">Data od <span>*</span></label>
-        <input
-          type="date"
-          name="dateFrom"
-          id="dateFrom"
-          :value="experience.dateFrom"
-          @input="
-            emit('update:formData', {
-              ...props.formData,
-              experiences: props.formData.experiences.map((exp, i) =>
-                i === index ? { ...exp, dateFrom: ($event.target as HTMLInputElement).value } : exp,
-              ),
-            })
-          "
-          required
-        />
-        <small class="error" v-if="props.formErrors.experiences[index]?.dateFrom">{{
-          props.formErrors.experiences[index]?.dateFrom
-        }}</small>
-      </div>
-      <div class="input required">
-        <label for="dateTo">Data do <span>*</span></label>
-        <input
-          type="date"
-          name="dateTo"
-          id="dateTo"
-          :value="experience.dateTo"
-          @input="
-            emit('update:formData', {
-              ...props.formData,
-              experiences: props.formData.experiences.map((exp, i) =>
-                i === index ? { ...exp, dateTo: ($event.target as HTMLInputElement).value } : exp,
-              ),
-            })
-          "
-          required
-        />
-        <small class="error" v-if="props.formErrors.experiences[index]?.dateTo">{{
-          props.formErrors.experiences[index]?.dateTo
-        }}</small>
-      </div>
-      <button @click="removeExperience(index)">Usuń</button>
+      <button class="step__delete" @click="removeExperience(index)">-</button>
     </div>
-    <button @click="addExperience">Dodaj stanowisko</button>
+    <button class="step__add" @click="addExperience">Dodaj stanowisko</button>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .step {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 3rem;
+  &__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 auto;
+  }
+  &__field {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+  }
+  &__delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+    border-radius: var(--radius);
+    margin-left: 10px;
+    margin-top: 24px;
+    background-color: var(--primary);
+    transition: 0.2s ease-in background-color;
+    color: #fff;
+    &:hover {
+      background-color: var(--secondary);
+    }
+  }
+  &__add {
+    width: max-content;
+    margin: 0 auto;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    background-color: var(--primary);
+    transition: 0.2s ease-in background-color;
+    color: #fff;
+    &:hover {
+      background-color: var(--secondary);
+    }
+  }
 }
-.input {
-  display: flex;
-  flex-direction: column;
+@media only screen and (min-width: 480px) {
+  .step {
+    &__field {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+  }
 }
-.input.required span {
-  color: rgb(219, 56, 56);
-}
-.input input {
-  background-color: var(--bg-secondary);
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  color: var(--text-primary);
-}
-small.error {
-  color: rgb(219, 56, 56);
+@media only screen and (min-width: 1024px) {
+  .step {
+    gap: 1rem;
+    &__field {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+  }
 }
 </style>

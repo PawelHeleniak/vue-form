@@ -23,6 +23,7 @@ const emit = defineEmits(['update:formData'])
           type="text"
           name="phone"
           id="phone"
+          placeholder="Wpisz numer telefonu"
           :value="props.formData.phone"
           @input="
             emit('update:formData', {
@@ -40,6 +41,7 @@ const emit = defineEmits(['update:formData'])
           type="text"
           name="email"
           id="email"
+          placeholder="Wpisz email"
           :value="props.formData.email"
           @input="
             emit('update:formData', {
@@ -60,22 +62,5 @@ const emit = defineEmits(['update:formData'])
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-.input {
-  display: flex;
-  flex-direction: column;
-}
-.input.required span {
-  color: rgb(219, 56, 56);
-}
-.input input {
-  background-color: var(--bg-secondary);
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  color: var(--text-primary);
-}
-small.error {
-  color: rgb(219, 56, 56);
 }
 </style>

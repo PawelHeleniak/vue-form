@@ -1,17 +1,30 @@
 :root {
   --text-primary: #181818;
   --text-secondary: #282828;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f2f2f2;
+  --bg-primary: hsl(0, 0%, 95%);
+  --bg-secondary: hsl(0, 0%, 100%);
   --primary: hsl(160, 100%, 37%);
   --secondary: hsla(160, 100%, 37%, 0.5);
+
+  --bg-primary-25: hsl(0, 0%, 75%);
+  --bg-primary-50: hsl(0, 0%, 50%);
+  --bg-primary-75: hsl(0, 0%, 25%);
+
+  --input-color: #dfdfdf;
+  --radius: 12px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --text-primary: #ffffff;
     --text-secondary: #f2f2f2;
-    --bg-primary: #181818;
-    --bg-secondary: #282828;
+    --bg-primary: hsl(0, 0%, 9%);
+    --bg-secondary: hsl(0, 0%, 16%);
+
+    --bg-primary-25: hsl(0, 0%, 25%);
+    --bg-primary-50: hsl(0, 0%, 50%);
+    --bg-primary-75: hsl(0, 0%, 75%);
+
+    --input-color: #4b4b4b;
   }
 }

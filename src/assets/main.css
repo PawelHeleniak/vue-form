@@ -1,17 +1,21 @@
 @import './variable.css';
 @import './base.css';
+@import './input.css';
 
 #app {
   display: flex;
   flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   font-weight: normal;
+  width: 100%;
+  align-items: center;
 }
 
 button {
   cursor: pointer;
+  border: none;
 }
 
 a {
@@ -27,6 +31,11 @@ a {
   }
 }
 
+@media only screen and (min-width: 480px) {
+  #app {
+    padding: 2rem;
+  }
+}
 @media (min-width: 1024px) {
   body {
     display: flex;

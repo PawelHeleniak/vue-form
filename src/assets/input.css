@@ -1,0 +1,26 @@
+.input {
+  display: flex;
+  flex-direction: column;
+}
+.input.required span {
+  color: rgb(219, 56, 56);
+}
+.input {
+  input {
+    background-color: var(--input-color);
+    border: none;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: var(--text-primary);
+  }
+  label {
+    margin-left: 2px;
+  }
+  textarea:focus,
+  input:focus {
+    outline: 2px solid var(--secondary);
+  }
+}
+small.error {
+  color: rgb(219, 56, 56);
+}

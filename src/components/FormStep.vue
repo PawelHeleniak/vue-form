@@ -173,33 +173,68 @@ const updateFormError = () => {
 </script>
 
 <template>
-  <FormStepper :step="step" @step="handleStep"></FormStepper>
-  <form>
-    <BasicFormStep
-      v-if="step === 1"
-      v-model:formData="formData"
-      :formErrors="formErrors"
-      @update:formData="updateFormError"
-    />
-    <ContactFormStep
-      v-if="step === 2"
-      v-model:formData="formData"
-      :formErrors="formErrors"
-      @update:formData="updateFormError"
-    />
-    <WorkExperienceFormStep
-      v-if="step === 3"
-      v-model:formData="formData"
-      :formErrors="formErrors"
-      @update:formData="updateFormError"
-    />
-  </form>
-  <FormNavigationButtons
-    @next="nextStep"
-    @back="backStep"
-    @submit="submit"
-    :step="step"
-  ></FormNavigationButtons>
+  <div class="form">
+    <div class="form__stepper">
+      <FormStepper :step="step" @step="handleStep"></FormStepper>
+    </div>
+    <div class="form__content">
+      <form>
+        <BasicFormStep
+          v-if="step === 1"
+          v-model:formData="formData"
+          :formErrors="formErrors"
+          @update:formData="updateFormError"
+        />
+        <ContactFormStep
+          v-if="step === 2"
+          v-model:formData="formData"
+          :formErrors="formErrors"
+          @update:formData="updateFormError"
+        />
+        <WorkExperienceFormStep
+          v-if="step === 3"
+          v-model:formData="formData"
+          :formErrors="formErrors"
+          @update:formData="updateFormError"
+        />
+      </form>
+    </div>
+    <div class="form__buttons">
+      <FormNavigationButtons
+        @next="nextStep"
+        @back="backStep"
+        @submit="submit"
+        :step="step"
+      ></FormNavigationButtons>
+    </div>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius);
+  min-width: 100%;
+  width: max-content;
+  height: auto;
+  margin: 0 auto;
+  &__buttons {
+    margin-top: auto;
+  }
+}
+@media only screen and (min-width: 480px) {
+  .form {
+    padding: 2rem;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .form {
+    min-width: 500px;
+    min-height: 600px;
+  }
+}
+</style>

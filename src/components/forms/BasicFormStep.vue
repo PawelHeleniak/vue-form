@@ -28,6 +28,7 @@ const maxBirthDate = today.toISOString().split('T')[0]
         type="text"
         name="name"
         id="name"
+        placeholder="Podaj imię"
         :value="props.formData.name"
         @input="
           $emit('update:formData', {
@@ -45,6 +46,7 @@ const maxBirthDate = today.toISOString().split('T')[0]
         type="text"
         name="surname"
         id="surname"
+        placeholder="Wpisz nazwisko"
         :value="props.formData.surname"
         @input="
           emit('update:formData', {
@@ -62,6 +64,7 @@ const maxBirthDate = today.toISOString().split('T')[0]
         type="date"
         name="birthDate"
         id="birthDate"
+        placeholder="Wpisz date urodzenia"
         :value="props.formData.birthDate"
         @input="
           emit('update:formData', {
@@ -79,27 +82,10 @@ const maxBirthDate = today.toISOString().split('T')[0]
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .step {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-.input {
-  display: flex;
-  flex-direction: column;
-}
-.input.required span {
-  color: rgb(219, 56, 56);
-}
-.input input {
-  background-color: var(--bg-secondary);
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  color: var(--text-primary);
-}
-small.error {
-  color: rgb(219, 56, 56);
 }
 </style>
