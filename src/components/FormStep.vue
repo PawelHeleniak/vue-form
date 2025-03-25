@@ -101,18 +101,47 @@ const validateStep = () => {
       break
 
     case 3:
-      console.log(formData.value.experiences)
-      console.log(formErrors.value.experiences)
+      if (!formErrors.value.experiences) {
+        formErrors.value.experiences = []
+      }
 
       for (let index = 0; index < formData.value.experiences.length; index++) {
-        console.log(formErrors.value.experiences)
-        console.log(index)
+        if (!formErrors.value.experiences[index]) {
+          formErrors.value.experiences[index] = {
+            company: '',
+            position: '',
+            dateFrom: '',
+            dateTo: '',
+          }
+        }
 
         if (!formData.value.experiences[index].company) {
           formErrors.value.experiences[index].company = 'Pole jest wymagane.'
           return false
         }
+        if (!formData.value.experiences[index].position) {
+          formErrors.value.experiences[index].position = 'Pole jest wymagane.'
+          return false
+        }
+        if (!formData.value.experiences[index].dateFrom) {
+          formErrors.value.experiences[index].dateFrom = 'Pole jest wymagane.'
+          return false
+        }
+        if (!formData.value.experiences[index].dateTo) {
+          formErrors.value.experiences[index].dateTo = 'Pole jest wymagane.'
+          return false
+        }
+        const fromDate = new Date(formData.value.experiences[index].dateFrom)
+        const toDate = new Date(formData.value.experiences[index].dateTo)
+        if (fromDate > toDate) {
+          formErrors.value.experiences[index].dateFrom =
+            'Data od nie może być późniejsza od daty do.'
+          formErrors.value.experiences[index].dateTo =
+            'Data do nie może być wcześniejsza od daty od.'
+          return false
+        }
       }
+      if (!formData.value.experiences.length) return false
 
       return true
     default:
@@ -120,25 +149,6 @@ const validateStep = () => {
   }
   return true
 }
-//   if (!formData.value.position) {
-//     formErrors.value.position = 'Pole jest wymagane.'
-//     return false
-//   }
-//   if (!formData.value.dateFrom) {
-//     formErrors.value.dateFrom = 'Pole jest wymagane.'
-//     return false
-//   }
-//   if (!formData.value.dateTo) {
-//     formErrors.value.dateTo = 'Pole jest wymagane.'
-//     return false
-//   }
-//   const fromDate = new Date(formData.value.dateFrom)
-//   const toDate = new Date(formData.value.dateTo)
-//   if (fromDate > toDate) {
-//     formErrors.value.dateFrom = 'Data od nie może być późniejsza od daty do.'
-//     formErrors.value.dateTo = 'Data do nie może być wcześniejsza od daty od.'
-//     return false
-//   }
 
 const handleStep = (newStep: number) => {
   const currentStep = step.value

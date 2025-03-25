@@ -22,20 +22,14 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: 'update:formData', value: typeof props.formData): void
-  (e: 'update:formErrors', value: typeof props.formErrors): void
 }>()
 
 const addExperience = () => {
   const newExperience = { company: '', position: '', dateFrom: '', dateTo: '' }
-  const newExperienceErrors = { company: '', position: '', dateFrom: '', dateTo: '' }
 
   emit('update:formData', {
     ...props.formData,
     experiences: [...props.formData.experiences, newExperience],
-  })
-  emit('update:formErrors', {
-    ...props.formErrors,
-    experiences: [...props.formErrors.experiences, newExperienceErrors],
   })
 }
 const removeExperience = (index: number) => {
@@ -143,9 +137,9 @@ const removeExperience = (index: number) => {
           }}</small>
         </div>
       </div>
-      <button class="step__delete" @click="removeExperience(index)">-</button>
+      <button class="step__delete" type="button" @click="removeExperience(index)">-</button>
     </div>
-    <button class="step__add" @click="addExperience">Dodaj stanowisko</button>
+    <button class="step__add" type="button" @click="addExperience">Dodaj stanowisko</button>
   </div>
 </template>
 
@@ -211,6 +205,9 @@ const removeExperience = (index: number) => {
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
     }
+  }
+  .input {
+    max-width: 205px;
   }
 }
 </style>
